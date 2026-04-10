@@ -236,7 +236,9 @@ In stricter setups:
 
 ```
 ![Dashboard](images/web%20view.png)
+
 ![Dashboard](images/web%20view.png)
+
 ![Checkout](images/web%203.png)
 
 
@@ -248,10 +250,11 @@ In stricter setups:
 
 
 ---
+```
 
 ### PM2 Monitoring
 
-![PM2 list view](images/pm2_curl.png)
+![PM2 list view](images/pm2%20curl.png)
 
 
 ---
