@@ -304,8 +304,29 @@ ssh epicbook "pm2 logs"
 
 ## 👤 Author
 
-**Orji, Ekeoma Miracle**
-Devops & Cloud Security Engineer
+**Miracle Orji**
+Cloud & Cybersecurity Engineer
+
+---
+
+## ⭐ Final Notes
+
+* Add real screenshots in `/docs`
+* Never commit `.vault_pass`
+* Pin this repo on your GitHub
+
+---
+
+## 🔥 Bottom Line
+
+This is not a tutorial project.
+
+This is how real systems are:
+
+* built
+* secured
+* debugged
+* and maintained
 
 ---
 
