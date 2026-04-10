@@ -171,8 +171,8 @@ Host epicbook
 
 ```bash
 ansible-playbook -i inventory.ini site.yml --vault-password-file .vault_pass
-
-![Ansible Playbook Output](images/ansible-playbook.png)
+```
+![Ansible Playbook Output](images/ansible%20playbook.png)
 
 ```
 
