@@ -234,9 +234,15 @@ In stricter setups:
 
 ### Application
 
+```
 ![Dashboard](images/web%20view.png)
-![Cart](images/web%202.png)
+![Dashboard](images/web%20view.png)
 ![Checkout](images/web%203.png)
+
+
+
+```
+
 
 
 
