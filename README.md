@@ -313,7 +313,7 @@ ssh epicbook "pm2 logs"
 
 ## 👤 Author
 
-**Miracle Orji**
+**Orji Ekeoma Miracle**
 Cloud & Cybersecurity Engineer
 
 ---
