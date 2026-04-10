@@ -1,0 +1,41 @@
+---
+- name: Update apt cache and upgrade system
+  apt:
+    update_cache: yes
+    upgrade: dist
+    cache_valid_time: 3600
+
+- name: Install baseline utilities
+  apt:
+    name: [git, curl, mysql-client, build-essential, ca-certificates, gnupg]
+    state: present
+
+- name: Create directory for GPG keys
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Download NodeSource GPG key
+  get_url:
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+    dest: /etc/apt/keyrings/nodesource.asc
+    mode: '0644'
+
+- name: Add NodeSource deb repository
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/nodesource.asc] https://deb.nodesource.com/node_18.x nodistro main"
+    state: present
+    filename: nodesource
+
+- name: Install Node.js
+  apt:
+    name: nodejs
+    state: present
+    update_cache: yes
+
+- name: Install PM2 globally
+  npm:
+    name: pm2
+    global: yes
+    state: present

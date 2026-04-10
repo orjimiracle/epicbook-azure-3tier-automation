@@ -1,0 +1,83 @@
+---
+
+
+# ... (previous tasks remain the same)
+
+- name: Debug variables for config path
+  debug:
+    msg: "Targeting config at: {{ app_dest }}/config/config.json"
+
+- name: Configure Sequelize database connection with SSL
+  template:
+    src: config.json.j2
+    dest: "{{ app_dest }}/config/config.json"
+    owner: azureuser
+    group: azureuser
+    mode: '0644'
+    force: yes  # Explicitly tell Ansible to overwrite the file
+  register: template_output
+
+- name: Show template status
+  debug:
+    var: template_output.changed
+
+# ... (rest of the tasks)
+- name: Clone the EpicBook repository
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dest }}"
+    version: main
+    force: yes
+
+- name: Ensure azureuser owns the app directory
+  file:
+    path: "{{ app_dest }}"
+    owner: azureuser
+    group: azureuser
+    recurse: yes
+
+- name: Create the bookstore database if it does not exist
+  shell: "mysql -h {{ db_host }} -u {{ db_user }} -p'{{ db_pass }}' -e 'CREATE DATABASE IF NOT EXISTS {{ db_name }};'"
+  register: create_db_result
+  changed_when: "'1 row affected' in create_db_result.stdout"
+
+#- name: Download Azure MySQL CA Certificate
+  #get_url:
+    #url: https://dl.cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem
+    #dest: "{{ app_dest }}/config/azure-db-ca.pem"
+   # owner: azureuser
+    #mode: '0644'
+
+- name: Install NPM dependencies
+  npm:
+    path: "{{ app_dest }}"
+
+- name: Configure Sequelize database connection with SSL
+  template:
+    src: config.json.j2
+    dest: "{{ app_dest }}/config/config.json"
+    owner: azureuser
+
+- name: Check if database tables already exist
+  shell: "mysql -h {{ db_host }} -u {{ db_user }} -p'{{ db_pass }}' {{ db_name }} -e 'SHOW TABLES;'"
+  register: db_check
+  changed_when: false
+
+- name: Seed database schemas
+  shell: "mysql -h {{ db_host }} -u {{ db_user }} -p'{{ db_pass }}' {{ db_name }} < {{ app_dest }}/db/{{ item }}"
+  loop:
+    - BuyTheBook_Schema.sql
+    - author_seed.sql
+    - books_seed.sql
+  when: "db_check.stdout == ''"
+
+- name: Manage EpicBook process with PM2 as azureuser
+  shell: |
+    export HOME=/home/azureuser
+    pm2 delete epicbook || true
+    pm2 start server.js --name epicbook
+    pm2 save
+  args:
+    chdir: "{{ app_dest }}"
+  become: yes
+  become_user: azureuser

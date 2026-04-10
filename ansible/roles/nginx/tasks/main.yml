@@ -1,0 +1,25 @@
+---
+# tasks file for nginx
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Deploy Nginx configuration from template
+  template:
+    src: epicbook.conf.j2
+    dest: /etc/nginx/sites-available/epicbook
+  notify: reload nginx
+
+- name: Enable EpicBook site
+  file:
+    src: /etc/nginx/sites-available/epicbook
+    dest: /etc/nginx/sites-enabled/epicbook
+    state: link
+
+- name: Remove default Nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
