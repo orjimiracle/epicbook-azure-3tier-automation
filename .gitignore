@@ -12,3 +12,9 @@ terraform.tfvars
 *.pem
 *_rsa
 /ssh
+# Terraform files (except main.tf, output.tf, variables.tf, terraform.tfvars)
+/terraform
+*.tf
+!main.tf
+!output.tf
+!variables.tf
