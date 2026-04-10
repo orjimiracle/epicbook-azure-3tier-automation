@@ -61,7 +61,7 @@ epicbook-prod/
         ├── output.tf
         └── terraform.tfstate
 ```
-
+![tree view](images/tree%20view.png)
 ---
 
 ## ⚙️ Local Setup (WSL Ubuntu on Windows)
@@ -149,8 +149,8 @@ ansible-playbook -i inventory.ini site.yml --vault-password-file .vault_pass
 cd terraform/azure
 terraform init
 terraform apply -auto-approve
-
-![terraform Output](images/terrraform_output.png)
+```
+![terraform Output](images/terrraform%20output.png)
 
 ```
 
@@ -261,13 +261,13 @@ In stricter setups:
 
 ### Terraform Output
 
-![Image](images/terrraform_output.png)
+![Image](images/terrraform%20output.png)
 
 ---
 
 ### Ansible Execution
 
-![Image](images/ansible-playbook.png)
+![Image](images/ansible%20playbook.png)
 
 ---
 
